@@ -44,8 +44,13 @@ button{
     background:#e6f2ff;
     border-color:#3399ff;
 }
-.copied{
-    background:#b3ffcc !important;
+
+/* LAST COPIED MARK */
+.word.active{
+    background:#4CAF50;
+    color:white;
+    border-color:#4CAF50;
+    font-weight:bold;
 }
 </style>
 </head>
@@ -60,30 +65,45 @@ button{
 <div id="output"></div>
 
 <script>
+
+let lastSelected=null;
+
 function splitWords(){
-    const text = document.getElementById("para").value;
 
-    // remove punctuation: . , ! ? : ; ' " ( ) etc
-    const clean = text.replace(/[.,!?;:"'()\-]/g,"");
+    const text=document.getElementById("para").value;
 
-    // split words by any space/newline
-    const words = clean.split(/\s+/).filter(w=>w.length>0);
+    // remove punctuation
+    const clean=text.replace(/[.,!?;:"'()\-]/g,"");
 
-    const out = document.getElementById("output");
+    const words=clean.split(/\s+/).filter(w=>w.length>0);
+
+    const out=document.getElementById("output");
     out.innerHTML="";
+    lastSelected=null;
 
     words.forEach(word=>{
+
         const div=document.createElement("div");
         div.className="word";
         div.textContent=word;
 
         div.onclick=()=>{
+
             navigator.clipboard.writeText(word);
-            div.classList.add("copied");
-            setTimeout(()=>div.classList.remove("copied"),600);
+
+            // remove old mark
+            if(lastSelected){
+                lastSelected.classList.remove("active");
+            }
+
+            // mark new
+            div.classList.add("active");
+            lastSelected=div;
+
         };
 
         out.appendChild(div);
+
     });
 }
 </script>
