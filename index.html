@@ -73,7 +73,7 @@ function splitWords(){
     const text=document.getElementById("para").value;
 
     // remove punctuation
-    const clean=text.replace(/[.,!?;:"'()\-]/g,"");
+    const clean=text.replace(/[.,!?;:।"'()\-]/g,"");
 
     const words=clean.split(/\s+/).filter(w=>w.length>0);
 
